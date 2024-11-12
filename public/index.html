@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retro Dragon Ball Universe</title>
+    <!-- Enlace al archivo CSS externo -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Encabezado -->
+        <header>
+            <h1>Retro Dragon Ball Universe</h1>
+        </header>
+
+        <!-- Sección de introducción / héroe -->
+        <section class="hero-section" aria-labelledby="hero-heading">
+            <h2 id="hero-heading">Welcome to the World of Dragon Ball</h2>
+            <div class="hero-image" aria-label="Imagen de fondo representativa de Dragon Ball"></div>
+            <p>Explore the epic battles and legendary characters in a retro style!</p>
+            <button id="play-button" class="explore-button" aria-label="Iniciar juego">Play Now</button>
+        </section>
+
+        <!-- Sección de personajes destacados -->
+        <section class="character-section" aria-labelledby="featured-characters-heading">
+            <h2 id="featured-characters-heading">Featured Characters</h2>
+            <div class="characters-grid" role="grid">
+                <div class="character-card" role="gridcell" aria-labelledby="goku-heading">
+                    <div class="character-image goku" aria-label="Imagen de Goku"></div>
+                    <h3 id="goku-heading">Goku</h3>
+                </div>
+                <div class="character-card" role="gridcell" aria-labelledby="vegeta-heading">
+                    <div class="character-image vegeta" aria-label="Imagen de Vegeta"></div>
+                    <h3 id="vegeta-heading">Vegeta</h3>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pie de página -->
+        <footer>
+            <p>© 2024 Retro Dragon Ball Universe - All Rights Reserved</p>
+        </footer>
+    </div>
+
+    <script>
+        // Al hacer clic en "Play Now", cerramos la sesión y redirigimos a la página de inicio de sesión
+        document.getElementById('play-button').addEventListener('click', function() {
+            // Cerrar la sesión
+            sessionStorage.removeItem('sessionUser');
+
+            // Redirigir a la página de inicio de sesión
+            window.location.href = 'login.html';
+        });
+    </script>
+</body>

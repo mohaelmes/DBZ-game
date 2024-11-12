@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego - Retro Dragon Ball Universe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div id="game-container">
+        <!-- Contenedor del canvas del juego -->
+        <div id="canvas-container">
+            <!-- Aquí se insertará el canvas de p5.js y el overlay de noche -->
+        </div>
+        
+        <!-- Capa de oscurecimiento para la noche (inicialmente oculta) -->
+        <div class="night-overlay"></div>
+    </div>
+    
+    <!-- Contenedor para mostrar la lista de jugadores conectados -->
+    <div id="players-list-container">
+        <h2>Jugadores Conectados</h2>
+        <ul id="players-list"></ul>
+    </div>
+
+    <!-- Selector de modo de hora del día -->
+    <div id="daytime-selector">
+        <label for="time-select">Hora del día:</label>
+        <select id="time-select">
+            <option value="day">Día</option>
+            <option value="night">Noche</option>
+        </select>
+        <img id="daytime-logo" src="images/sun.png" alt="Logo de día/noche"> <!-- Imagen de sol/luna -->
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/sketch.js"></script>
+     <style>/* Estilos generales para el cuerpo de la página */
+        body {
+            font-family: 'Press Start 2P', cursive;
+            margin: 0;
+            padding: 0;
+            background-color: #000;  /* Fondo negro para que resalte el contenido */
+            color: white;  /* Texto blanco para el contraste */
+            overflow: hidden; /* Para evitar el scroll en el cuerpo */
+        }
+        
+        /* Contenedor principal del juego */
+        #game-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;  /* Ocupa toda la altura de la ventana */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        
+        /* Contenedor para el canvas del juego */
+        #canvas-container {
+            position: relative;
+            width: 800px;  /* Ancho fijo para el área del juego */
+            height: 600px;  /* Alto fijo para el área del juego */
+            background-color: #222;  /* Fondo oscuro para el área del juego */
+            border: 2px solid #fff;  /* Borde blanco alrededor del canvas */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        /* Overlay de noche */
+        .night-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7); /* Capa oscura con un poco de transparencia */
+            display: none;  /* Inicialmente oculta */
+        }
+        
+        /* Contenedor de la lista de jugadores */
+        #players-list-container {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            border-radius: 8px;
+            max-height: 80%;
+            overflow-y: auto;
+            width: 250px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+        
+        #players-list-container h2 {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 18px;
+            text-transform: uppercase;
+        }
+        
+        /* Estilos de la lista de jugadores */
+        #players-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        #players-list li {
+            margin: 5px 0;
+            font-size: 14px;
+            text-align: center;
+        }
+        
+        /* Selector de hora del día */
+        #daytime-selector {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 10px 15px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        #daytime-selector label {
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        
+        #daytime-selector select {
+            padding: 5px;
+            font-size: 14px;
+            margin-right: 10px;
+        }
+        
+        #daytime-selector img {
+            width: 25px;
+            height: 25px;
+        }
+        
+        /* Estilos para el logo de día/noche */
+        #daytime-logo {
+            width: 30px;
+            height: 30px;
+            transition: all 0.3s ease;
+        }
+        </style>
+    <script>
+        if (!window.socket) {
+            window.socket = io();
+        }
+
+        const socket = window.socket;
+
+        // Obtener el ID del jugador (debe estar almacenado previamente en sessionStorage)
+        const userId = sessionStorage.getItem('userId');
+
+        // Asegurar que el usuario se conecta al mapa del juego
+        if (userId) {
+            socket.emit('login', userId);
+        }
+
+        // Manejar el evento de cierre de la pestaña o ventana
+        window.addEventListener('beforeunload', function() {
+            if (userId) {
+                socket.emit('logout', userId);
+                console.log('Usuario desconectado al cerrar la pestaña:', userId);
+            }
+        });
+
+        // Actualizar la lista de jugadores cuando un jugador se conecta o desconecta
+        socket.on('updatePlayers', function(players) {
+            const playersList = document.getElementById('players-list');
+            playersList.innerHTML = ''; // Limpiar la lista
+
+            players.forEach(player => {
+                const li = document.createElement('li');
+                li.textContent = player.name;
+                playersList.appendChild(li);
+            });
+        });
+
+    
+     
+    </script>
+</body>
+</html>

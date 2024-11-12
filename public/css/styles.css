@@ -1,0 +1,325 @@
+/* Estilos generales */
+body {
+    background-color: #111;
+    font-family: 'Press Start 2P', cursive;
+    color: #f2f2f2;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 100%;
+    padding: 20px;
+}
+
+/* Encabezado retro */
+header {
+    background-color: #f39c12;
+    padding: 20px;
+    border-bottom: 4px solid #d35400;
+}
+
+h1 {
+    font-size: 24px;
+    margin: 0;
+    color: #fff;
+    letter-spacing: 2px;
+}
+
+/* Sección de héroe */
+.hero-section {
+    margin-top: 50px;
+}
+
+.hero-image {
+    width: 500px;
+    height: 200px;
+    margin: 0 auto;
+    background-image: url('../images/DBZ.png'); /* Cambiar a tu imagen local si tienes una */
+    background-size: cover;
+    background-position: center;
+    animation: pulse 1s infinite alternate;
+}
+
+@keyframes pulse {
+    from { transform: scale(1); }
+    to { transform: scale(1.1); }
+}
+
+h2 {
+    color: #e74c3c;
+    font-size: 22px;
+}
+
+p {
+    font-size: 14px;
+    margin-top: 10px;
+    color: #ecf0f1;
+}
+
+.explore-button {
+    background-color: #e67e22;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    margin-top: 20px;
+    font-size: 12px;
+    cursor: pointer;
+    text-transform: uppercase;
+    border: 3px solid #d35400;
+}
+
+.explore-button:hover {
+    background-color: #d35400;
+}
+
+/* Sección de personajes */
+.character-section {
+    margin-top: 50px;
+}
+
+.character-section h2 {
+    color: #27ae60;
+    margin-bottom: 30px;
+}
+
+.characters-grid {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+/* Estilo general para la sección de selección de personajes */
+.character-selection {
+    display: flex;
+    flex-wrap: wrap; /* Permitir que los elementos se envuelvan en la línea siguiente */
+    justify-content: center; /* Centrar los elementos */
+    margin: 20px; /* Margen alrededor de la sección */
+}
+
+/* Estilo para las tarjetas de personajes */
+.character-card {
+    background-color: #2c3e50; /* Color de fondo */
+    border-radius: 10px; /* Bordes redondeados */
+    padding: 15px; /* Espacio interno */
+    margin: 15px; /* Espacio entre tarjetas */
+    max-width: 200px; /* Limitar el ancho máximo de la tarjeta */
+    text-align: center; /* Centrar el texto */
+    transition: transform 0.3s; /* Efecto de transición al hacer hover */
+}
+
+/* Efecto de hover en la tarjeta */
+.character-card:hover {
+    transform: scale(1.05); /* Aumentar ligeramente el tamaño al pasar el mouse */
+}
+
+/* Estilo para las imágenes dentro de la tarjeta */
+.character-card img {
+    width: 100%; /* Imagen ocupa el 100% del ancho de la tarjeta */
+    height: auto; /* Mantener la proporción de la imagen */
+    border-radius: 5px; /* Bordes redondeados para la imagen */
+    max-height: 150px; /* Limitar la altura máxima de la imagen */
+}
+
+/* Estilo para los encabezados dentro de la tarjeta */
+.character-card h3 {
+    color: #f39c12; /* Color del texto del encabezado */
+    font-size: 1.25rem; /* Tamaño de fuente ajustable */
+    margin: 10px 0; /* Espaciado vertical */
+}
+
+/* Estilo para los párrafos dentro de la tarjeta */
+.character-card p {
+    color: #ecf0f1; /* Color del texto */
+    font-size: 1rem; /* Tamaño de fuente */
+    margin-bottom: 15px; /* Espacio inferior */
+}
+
+/* Estilo para los botones dentro de la tarjeta */
+.character-card .btn {
+    width: 100%; /* Botones ocupan todo el ancho de la tarjeta */
+    margin-bottom: 10px; /* Espacio entre botones */
+    border-radius: 5px; /* Bordes redondeados para los botones */
+}
+
+/* Animación para los personajes */
+.character-image {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    animation: move 1s ease-in-out infinite alternate; /* Aplicar animación */
+}
+
+@keyframes move {
+    from {
+        transform: translateY(0); /* Posición inicial */
+    }
+    to {
+        transform: translateY(-10px); /* Movimiento hacia arriba */
+    }
+}
+
+.character-image.goku {
+    background-image: url('../images/goku.png'); /* Imagen local de Goku */
+}
+
+.character-image.vegeta {
+    background-image: url('../images/vegeta.png'); /* Imagen local de Vegeta */
+}
+
+h3 {
+    color: #f39c12;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+/* Footer */
+footer {
+    margin-top: 50px;
+    padding: 10px;
+    background-color: #2c3e50;
+    color: white;
+    font-size: 12px;
+    border-top: 3px solid #34495e;
+}
+
+/* Animación de sprite de Goku */
+.goku-sprite {
+    width: 133px; /* Ancho de un fotograma */
+    height: 166px; /* Altura de un fotograma */
+    background-image: url('../images/goku.png'); /* Asegúrate de poner la ruta correcta */
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    animation: play-sprite 0.8s steps(3) infinite; /* 3 cuadros en total */
+}
+
+@keyframes play-sprite {
+    from { background-position: 0 0; }
+    to { background-position: -396px 0; } /* 3 cuadros de 133px = 399px de desplazamiento total */
+}
+
+/* Animación de sprite de Vegeta */
+.vegeta-sprite {
+    width: 97px; /* Ancho de un fotograma */
+    height: 160px; /* Altura de un fotograma */
+    background-image: url('../images/vegeta.png'); /* Asegúrate de poner la ruta correcta */
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    animation: play-vegeta-sprite 0.8s steps(3) infinite; /* 3 cuadros en total */
+    margin-left: 30px;
+}
+
+@keyframes play-vegeta-sprite {
+    from { background-position: 0 0; }
+    to { background-position: -291px 0; } /* 3 cuadros de 97px = 291px de desplazamiento total */
+}
+
+/* Media Queries para pantallas más pequeñas */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 20px;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+
+    .explore-button {
+        padding: 8px 16px;
+        font-size: 10px;
+    }
+
+    .characters-grid {
+        gap: 15px; /* Reduce el espacio entre tarjetas */
+    }
+
+    .character-card {
+        width: 120px; /* Reduce el tamaño de las tarjetas en pantallas pequeñas */
+        height: auto;
+    }
+
+    h3 {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 16px;
+    }
+
+    h2 {
+        font-size: 16px;
+    }
+
+    .explore-button {
+        padding: 6px 12px;
+        font-size: 9px;
+    }
+
+    .character-card {
+        width: 100px; /* Aún más pequeñas en móviles */
+        height: auto;
+    }
+
+    h3 {
+        font-size: 12px;
+    }
+}
+
+#game-canvas {
+    position: absolute; /* Elimina el espacio en blanco alrededor del canvas */
+    margin: 0 auto; /* Centra el canvas en la página */
+}
+
+/* Contenedor de personajes */
+.character-container {
+    position: absolute; /* Posicionamiento absoluto */
+    left: 50%; /* Centra horizontalmente */
+    top: 50%; /* Centra verticalmente */
+    transform: translate(-50%, -50%); /* Ajusta para centrar */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra verticalmente */
+    z-index: 10; /* Asegura que se muestre encima del canvas */
+}
+
+.character-image {
+    width: 150px; /* Ajusta el tamaño según sea necesario */
+    height: 150px; /* Ajusta el tamaño según sea necesario */
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    animation: move 1s ease-in-out infinite alternate; /* Aplicar animación */
+}
+
+.user-name {
+    margin-top: 5px; /* Espaciado entre la imagen del personaje y el nombre */
+}
+
+#user-list {
+    margin-top: 20px;
+    max-width: 200px;
+}
+
+#user-info {
+    margin-top: 20px;
+    max-width: 200px;
+}
+
+/* Estilo para el mensaje de error o éxito */
+#login-message {
+    margin-top: 20px;
+    font-size: 1rem;
+    color: #e74c3c;
+    font-weight: bold;
+}
+/* Estilo para las secciones de login y register */
+.login-register-section {
+    padding: 40px 20px;
+}
+
