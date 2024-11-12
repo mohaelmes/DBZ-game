@@ -46,6 +46,7 @@ app.post("/login", (req, res) => {
         
         res.json({ success: true, userId: user.id, username: user.username });
     } else {
+        console.log("req body:", req.body, "user: ", user)
         res.status(401).json({ success: false, message: "Usuario o contraseña incorrectos" });
     }
 });
@@ -55,11 +56,8 @@ app.post("/login", (req, res) => {
 // Ruta para manejar el registro de nuevos usuarios
 app.post("/register", (req, res) => {
     const { username, password } = req.body;
-
-    // Ruta del archivo users.json
     const usersPath = path.join(__dirname, 'users.json');
 
-    // Leer el archivo users.json
     fs.readFile(usersPath, 'utf8', (err, data) => {
         if (err) {
             console.error("Error al leer el archivo:", err);
@@ -68,7 +66,7 @@ app.post("/register", (req, res) => {
 
         let users = [];
         if (data) {
-            users = JSON.parse(data); // Convertir el archivo JSON a un array de usuarios
+            users = JSON.parse(data);
         }
 
         // Verificar si el usuario ya existe
@@ -77,18 +75,19 @@ app.post("/register", (req, res) => {
             return res.status(400).send({ success: false, message: 'El nombre de usuario ya está en uso' });
         }
 
-        // Crear un nuevo usuario con un ID único
+        // Generar un nuevo ID único para el usuario
+        const newId = users.length > 0 ? Math.max(...users.map(user => user.id)) + 1 : 1;
+
         const newUser = {
-            id: users.length + 1,  // Asignar un ID único (podrías usar una lógica diferente si prefieres)
+            id: newId,
             username: username,
             password: password,
-            role: 'user' // Asignar un rol predeterminado de usuario
+            role: 'user'
         };
 
-        // Agregar el nuevo usuario al arreglo de usuarios
         users.push(newUser);
 
-        // Escribir los usuarios actualizados en el archivo users.json
+        // Guardar los usuarios actualizados en users.json
         fs.writeFile(usersPath, JSON.stringify(users, null, 2), 'utf8', (err) => {
             if (err) {
                 console.error("Error al guardar el usuario:", err);
@@ -98,6 +97,7 @@ app.post("/register", (req, res) => {
         });
     });
 });
+
 
 // Endpoint para obtener personajes específicos de un usuario
 app.get("/characters/:userId", (req, res) => {
