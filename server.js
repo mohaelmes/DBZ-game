@@ -16,13 +16,13 @@ let onlineUsers = [];
 app.use(express.static('public'));
 
 const usersPath = path.join(__dirname, 'users.json');  // Definir la ruta del archivo users.json
-
+const users = JSON.parse(fs.readFileSync(usersPath, 'utf-8'));
 app.use(express.json()); // Para manejar el cuerpo de las peticiones en formato JSON
 
 const PORT = process.env.PORT || 3000;
 
 // Cargar los usuarios y personajes desde los archivos JSON
-const users = JSON.parse(fs.readFileSync("users.json", "utf-8"));
+
 const characters = JSON.parse(fs.readFileSync("characters.json", "utf-8"));
 // Middleware para parsear el cuerpo de las solicitudes POST
 app.use(bodyParser.json());
@@ -30,25 +30,34 @@ app.use(bodyParser.json());
 // Endpoint para autenticar al usuario
 app.post("/login", (req, res) => {
     const { username, password } = req.body;
-    console.log("req.body es ", req.body)
-    // Buscar al usuario en el array de usuarios
-    const user = users.find(u => u.username === username && u.password === password);
+    console.log("req.body es ", req.body);
 
-    if (user) {
-        console.log("Usuario encontrado:", user);
-        
-        // Agregar el usuario a la lista de usuarios conectados
-        const userOnline = { id: user.id, name: user.username };
-        if (!onlineUsers.some(u => u.id === user.id)) {
-            onlineUsers.push(userOnline);
-            console.log("online users", onlineUsers)
+    // Leer y parsear el archivo de usuarios
+    fs.readFile(usersPath, "utf-8", (err, data) => {
+        if (err) {
+            console.error("Error al leer el archivo de usuarios:", err);
+            return res.status(500).json({ success: false, message: "Error interno del servidor" });
         }
-        
-        res.json({ success: true, userId: user.id, username: user.username });
-    } else {
-        console.log("req body:", req.body, "user: ", user)
-        res.status(401).json({ success: false, message: "Usuario o contraseña incorrectos" });
-    }
+
+        const users = JSON.parse(data); // Parsear el archivo JSON
+        const user = users.find(u => u.username === username && u.password === password);
+
+        if (user) {
+            console.log("Usuario encontrado:", user);
+
+            // Agregar el usuario a la lista de usuarios conectados
+            const userOnline = { id: user.id, name: user.username };
+            if (!onlineUsers.some(u => u.id === user.id)) {
+                onlineUsers.push(userOnline);
+                console.log("online users", onlineUsers);
+            }
+
+            res.json({ success: true, userId: user.id, username: user.username });
+        } else {
+            console.log("req body:", req.body, "user: ", user);
+            res.status(401).json({ success: false, message: "Usuario o contraseña incorrectos" });
+        }
+    });
 });
 
 
